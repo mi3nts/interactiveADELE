@@ -1,5 +1,5 @@
 # CODE TO DISPLAY DASH VISUALIZATION WITH MULTIPLE TABS
-# CODE AUTHORED BY: SHAWHIN TALEBI
+# CODE AUTHORED BY: ARJUN SRIDHAR
 # PROJECT: interactiveADELE
 # GitHub: https://github.com/mi3nts/interactiveADELE
 
@@ -72,7 +72,7 @@ def sept16_demo(app, filepath):
 
 # main function to run app
 if __name__ == "__main__":
-    filepath = '' # replace with filepath of data - data should be a csv
+    filepath = 'C:/Arjun/UT_DALLAS/Graduate/Research/Data/2020_06_04_T05_U00T_ADELE.csv' # filepath of data - data should be a csv
     app = dash.Dash(__name__)
     sept16_demo(app, filepath)
     app.run_server(debug=True)
