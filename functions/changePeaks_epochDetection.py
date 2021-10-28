@@ -63,7 +63,7 @@ def changePeaks_epochDetect(x, numEpochs, minEpochLength, sampleRate):
     # compute number of peaks
     numPeaks = len(pks)
 
-    # sort peak locations and stort in desceding order
+    # sort peak locations and sort in desceding order
     igrad2_rolled_sorted = np.argsort(grad2_rolled[pks])
     igrad2_rolled_sorted = pks[igrad2_rolled_sorted[::-1]]
 
@@ -84,12 +84,14 @@ def changePeaks_epochDetect(x, numEpochs, minEpochLength, sampleRate):
     # get locations of tallest peaks and sort in ascending order
     middleEpochEdges = igrad2_rolled_sorted[:numEpochs-1][::-1]
 
-    # define final epoch edges
-    epochEdges = np.append(0, middleEpochEdges, len(x))
+    # define first and last epoch edges
+    epochEdges = np.append(0, middleEpochEdges)
+    epochEdges = np.append(epochEdges,len(x))
 
     # create dictionary with epoch labels and edges
     epoch_dict = {}
     for i in range(len(epochEdges)-1):
         epoch_dict[str(i+1)] = [epochEdges[i], epochEdges[i+1]]
+
 
     return epoch_dict
