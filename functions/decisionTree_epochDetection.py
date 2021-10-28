@@ -6,7 +6,7 @@
 
 # INPUTS
 #   - num_bins  = number of bins the epoch should be split into
-#   - Xy_array	= 2D array containing time index as one column and biometric variable as the other. This is the predictor.
+#   - Xy_array	= 2D array containing time index as one column and biometric variable as the other. 
 
 # OUTPUTS
 #   - epoch_dict = dictionary where key is epoch number and value is a list containing the epoch edges.
