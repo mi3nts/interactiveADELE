@@ -113,8 +113,8 @@ def make_3d_fig(data_brain, df, callback_value):
                        z=[myrowz + zoffset],
                        marker_size=[50, 50, 50],
                        marker=dict(color='green'),
-                       name=myrow.iloc[0]['Name'],
-                       uid='test')
+                       name=myrow.iloc[0]['Name']
+                       )
 
     return fig2
 
