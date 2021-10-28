@@ -1,12 +1,12 @@
-# CODE TO AUTOMATICALLY CREATE EPOCHS BINS BASED ON DECISION TREE LOGIC 
+# CODE TO AUTOMATICALLY CREATE EPOCHS BINS BASED ON DECISION TREE LOGIC
 
-# CODE AUTHORED BY: CHISOM SOPURUCHI	
+# CODE AUTHORED BY: CHISOM SOPURUCHI
 # PROJECT: interactiveADELE
 # GitHub: https://github.com/mi3nts/interactiveADELE
 
 # INPUTS
 #   - num_bins  = number of bins the epoch should be split into
-#   - Xy_array	= 2D array containing time index as one column and biometric variable as the other. 
+#   - Xy_array	= 2D array containing time index as one column and biometric variable as the other.
 
 # OUTPUTS
 #   - epoch_dict = dictionary where key is epoch number and value is a list containing the epoch edges.
@@ -16,7 +16,7 @@
 #   - none
 
 # ADELE DEPENDERS
-#   - none
+#   - data_processing()
 # ==============================================================================
 
 
@@ -27,7 +27,7 @@ import math
 from sklearn.tree import DecisionTreeRegressor
 
 def decisionTree_epochDetection(num_bins,Xy_array):
-    # exception handling 
+    # exception handling
     # max_leaf_nodes must either be None or larger than 1
     # therefore num_bins must be at least 2
     if(num_bins < 2):
@@ -36,7 +36,7 @@ def decisionTree_epochDetection(num_bins,Xy_array):
         num_bins = 2
     # fitting the regression tree X as features/predictor and y as label/target
     clf = DecisionTreeRegressor(max_leaf_nodes = num_bins).fit(Xy_array[:,0].reshape(-1, 1), Xy_array[:,1])
-    
+
     # variables creation
     num_nodes = clf.tree_.node_count
     left_child = clf.tree_.children_left
@@ -52,12 +52,10 @@ def decisionTree_epochDetection(num_bins,Xy_array):
         if left_child[i]!=right_child[i]:
             bin_edges.append(math.ceil(threshold[i]))
     # sort the nodes in increasing order
-    bin_edges.sort()  
+    bin_edges.sort()
     # create dictionary to store epoch bin edges
     epoch_dict = {}
-    # put in each dictionary index 2 consecutive bin edges 
+    # put in each dictionary index 2 consecutive bin edges
     for i in range(num_bins):
         epoch_dict[str(i+1)] = [bin_edges[i], bin_edges[i+1]]
     return epoch_dict
-
-

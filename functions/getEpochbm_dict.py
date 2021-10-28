@@ -19,7 +19,7 @@
 #   - none
 
 # ADELE DEPENDERS
-#   - none
+#   - data_processing()
 # ==============================================================================
 
 # import modules

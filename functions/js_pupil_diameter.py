@@ -73,7 +73,7 @@ def json_to_dataframe(participant_filename, data_filename):
   p_ts = get_ptimestamp(participant_filename)
   # Creates initial dataframe
   df_pd = pd.DataFrame.from_dict(list_data)
-  df_pd = df_pd.pivot(index=['ts'], columns= ['eye'])
+  df_pd = df_pd.pivot(index='ts', columns= 'eye')
 
   # Converts initial datetime value to int
   timestamp = int(round(p_ts.timestamp()))
