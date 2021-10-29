@@ -175,7 +175,12 @@ def brain_visual3(data_brain_file, coordinate_file, callback_object1, property1)
 
     # Get the file of the cartesian coordinates
     df = pd.read_csv(coordinate_file, delim_whitespace=True, names=['Name', 'x', 'y', 'z'])
-
+    brain_fig = dcc.Graph(
+            id="image-display-graph-3d",
+            config=dict(displayModeBar=False),
+            # figure=fig
+        )
+    """
     # Set up the app with the 3d brain and the secondary component
     app = dash.Dash(__name__)
     app.layout = html.Div([
@@ -186,7 +191,8 @@ def brain_visual3(data_brain_file, coordinate_file, callback_object1, property1)
         ),
         callback_object1
     ])
-
+    
+    
     # Updates graph when callback_object1 is changed
     @app.callback(
         dash.dependencies.Output('image-display-graph-3d', 'figure'),
@@ -197,28 +203,6 @@ def brain_visual3(data_brain_file, coordinate_file, callback_object1, property1)
         return fig
 
     return app
-
-
-# Sample main function to run app
-# if __name__ == "__main__":
-#     # Filepath of nii file from assets folder in the same directory
-#     img_file = "assets/BraTS19_2013_10_1_flair.nii"  # read in nii file from assets folder in same directory
-#
-#     # Get the file of the cartesian coordinates
-#     filepath_name = 'assets/EEG01_chanlocs_cartesian.txt'
-#
-#     # Secondary component that determines what coordinate to plot
-#     mycheckbox = dcc.Checklist(
-#         id='checklist-for-graph',
-#         options=[
-#             {'label': 'Fp1', 'value': 'Fp1'},
-#             {'label': 'Fp2', 'value': 'Fp2'},
-#             {'label': 'F3', 'value': 'F3'},
-#             {'label': 'F4', 'value': 'F4'},
-#             {'label': 'C3', 'value': 'C3'}
-#         ],
-#         value=['Fp1', 'Fp2', 'F3']
-#     )
-#
-#     app = brain_visual3(img_file, filepath_name, mycheckbox, 'value')
-#     app.run_server(debug=True)
+    """
+    
+    return data_brain, df, brain_fig
