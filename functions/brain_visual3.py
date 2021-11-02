@@ -30,6 +30,7 @@ import pandas as pd
 import numpy as np
 from skimage import measure, img_as_ubyte
 from nilearn import image
+from ipywidgets import widgets
 
 
 # Function taken from https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-3d-image-partitioning
