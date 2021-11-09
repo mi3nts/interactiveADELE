@@ -12,11 +12,13 @@
 
 # OUTPUTS
 #   - epochbm_dict = dictionary with keys as integers corresponding to each epoch,
-#   and values are a list containing epoch time index ranges and a pandas dataframe
-#   where the rows are electrodes and columns are brainwaves bands for the given epoch
+#   and values are a list containing epoch time index ranges, a pandas dataframe
+#   where the rows are electrodes and columns are brainwaves bands for the given epoch,
+#   and another pandas dataframe containing non-eeg data where rows are time index and 
+#   columns are the non-eeg biometric names.
 
 # ADELE DEPENDENCIES
-#   - none
+#   - biometricVar_per_epoch()
 
 # ADELE DEPENDERS
 #   - data_processing()
@@ -29,7 +31,7 @@ import pandas as pd
 
 # import functions
 from scipy import signal
-
+from biometricVar_per_epoch import *
 
 # define function
 def getEpochbm_dict(eeg_data, epoch_dict):
@@ -37,7 +39,10 @@ def getEpochbm_dict(eeg_data, epoch_dict):
     df = eeg_data.iloc[:, 0:64]     # create dataframe for 64 signals
     fs = 500                        # Sampling rate of 500 Hz
     epochbm_dict = dict()           # final dictionary
-
+    
+    # Read dictionary with non-eeg data
+    non_eeg_dict = biometricVar_per_epoch(epoch_dict, eeg_data)
+    
     # Define EEG frequency bands
     bands = {'Delta': (1, 3),
              'Theta': (4, 7),
@@ -85,7 +90,7 @@ def getEpochbm_dict(eeg_data, epoch_dict):
         # create new dataframe for freq bands of each electrode for given epoch
         bands_df = pd.DataFrame(eeg_list, columns=['Delta', 'Theta', 'Alpha', 'Beta', 'Gamma'], index=idx_name)
 
-        # add time index ranges and dataframe to dictionary in given epoch
-        epochbm_dict[e] = [[start_idx, end_idx], bands_df]
+        # add time index ranges and both EEG and non-EEG biometric dataframes to final dictionary in each epoch
+        epochbm_dict[e] = [[start_idx, end_idx], bands_df, non_eeg_dict[e][1]]
 
     return epochbm_dict
