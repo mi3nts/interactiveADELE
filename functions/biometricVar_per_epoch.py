@@ -27,7 +27,7 @@ def biometricVar_per_epoch(epoch_dict, eeg_data):
     # define output dictionary
     epochbm_dict={}
     # list to store column names we want to access from the dataframe
-    df_cols = ['HR', 'Temp', 'SpO2']
+    df_cols = ['HR', 'Temp.', 'SpO2']
     # apply rolling average to dataframe comprising of df_cols 
     rolled_df = eeg_data.loc[:,df_cols].rolling(window=5000).mean()
     # populate the output dictionary
