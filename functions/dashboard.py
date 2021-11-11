@@ -105,17 +105,36 @@ def interactive_dashboard():
     # main application
     app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
     app.layout = html.Div(children=[
+        html.Div([
+            html.H1(
+                children=f"Trial: {'_'.join(map(str,vhdr_fname.split('/')[3].split('_')[:4]))}, epochs based on {var_name}",
+                style={
+                    'textAlign': 'center'})
+        ]),
+        html.Div([
+            slider,
+            ], style={
+                'font-size': '12px',
+                'font-color': 'blue',
+                'padding': '10px'
+        }),
         html.Div([  # upper row with brain and hr plot
             html.Div([
                 html.Div([
                     dcc.Graph(
                         id="image-display-graph-3d-1",
-                        config=dict(displayModeBar=False)
-                    )
+                        config=dict(displayModeBar=False),
+                        style={
+                            'margin-left': 100,
+                            'display': 'inline-block'
+                        })
                 ]),
             ], className='six columns'),
             html.Div([
-                dcc.Graph(id='hr-graph1')
+                dcc.Graph(id='hr-graph1',
+                    style={
+                        'display': 'inline-block'
+                    })
             ], className='six columns'),
         ], className='row'),
 
@@ -125,16 +144,21 @@ def interactive_dashboard():
                     dcc.Graph(
                         id="image-display-graph-3d-2",
                         config=dict(displayModeBar=False),
+                        style={
+                            'margin-left': 100,
+                            'display': 'inline-block'}
                     )
                 ])
             ], className='six columns'),
             html.Div([
-                dcc.Graph(id='SpO2-graph1')
+                dcc.Graph(id='SpO2-graph1',
+                    style={
+                        'display': 'inline-block'
+                    })
             ], className='six columns')
         ], className='row'),
 
-        slider
-    ])
+    ],style={'backgroundColor':'gray'})
 
     # Updates 3d brain 1 (Theta band) with the electrode to plot when slider is changed
     @app.callback(

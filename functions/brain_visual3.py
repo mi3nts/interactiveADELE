@@ -90,7 +90,8 @@ def make_3d_fig(data_brain, df, callback_value, band):
                 eye=dict(x=1.25, y=1.25, z=1.25),
             ),
         ),
-        height=800,
+        height=450,
+        width=800,
     )
 
     fig = go.Figure(data=data_brain,

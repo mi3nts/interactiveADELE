@@ -19,7 +19,7 @@ from dash import dcc
 def create_slider(epoch_dict):
     slider_dict = {}  # dictionary
     for epoch in epoch_dict:  # loops over all keys in epoch dict
-        slider_dict[epoch] = 'epoch {}'.format(epoch)  # displaying on the slider the epoch number (1-4)
+        slider_dict[epoch] = 'Epoch {}'.format(epoch)  # displaying on the slider the epoch number (1-4)
     slider = dcc.Slider(  # characteristics of our slider here
         id='Epoch Slider',
 
@@ -29,6 +29,7 @@ def create_slider(epoch_dict):
         min=1,
         max=len(slider_dict),  # the maximum is the total length of our slider dictionary (4)
         value=len(slider_dict),  # the length is the total length of our slider dictionary (4)
+        
 
     )
     return slider
