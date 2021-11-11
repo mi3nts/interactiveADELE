@@ -1,4 +1,4 @@
-# CODE TO DISPLAY A 3D BRAIN MODEL WITH THREE EEG ELECTRODE PLOTS AND A SECONDARY COMPONENT
+# CODE TO DISPLAY A 3D BRAIN MODEL WITH THREE EEG ELECTRODE PLOTS
 
 # CODE AUTHORED BY: MICHAEL LEE
 # PROJECT: interactiveADELE
@@ -73,9 +73,10 @@ def create_brain_data(img):
 
 
 # Function that creates the 3d brain figure with 3 plot points using the brain data array
-# input - the brain data array, the dataframe of all electrode locations, the name of the electrode to plot
+# input - the brain data array, the dataframe of all electrode locations, the list of the electrodes to plot,
+#           the band being plotted for the title
 # output - the figure with the 3d brain and three electrode plots
-def make_3d_fig(data_brain, df, callback_value):
+def make_3d_fig(data_brain, df, callback_value, band):
     # adapted from plotly dash
     # creates the default brain
     default_3d_layout = dict(
@@ -92,7 +93,10 @@ def make_3d_fig(data_brain, df, callback_value):
         height=800,
     )
 
-    fig = go.Figure(data=data_brain)  # from plotly.graph objects module
+    fig = go.Figure(data=data_brain,
+                    layout=go.Layout(
+                        title=go.layout.Title(text="%s Band Highest Electrodes" % band)
+                    ))  # from plotly.graph objects module
     fig.update_layout(**default_3d_layout)
 
     # create the plot points
@@ -121,7 +125,7 @@ def make_3d_fig(data_brain, df, callback_value):
                            )
 
     # Orange plot point
-    if(len(callback_value) >= 2):
+    if (len(callback_value) >= 2):
         myrow = df.loc[df["Name"] == callback_value[1]]
         if (myrow.empty):
             myrow = df.loc[df["Name"] == "Fp1"]
@@ -139,7 +143,7 @@ def make_3d_fig(data_brain, df, callback_value):
                            )
 
     # Yellow plot point
-    if(len(callback_value) >= 3):
+    if (len(callback_value) >= 3):
         myrow = df.loc[df["Name"] == callback_value[2]]
         if (myrow.empty):
             myrow = df.loc[df["Name"] == "Fp1"]
@@ -158,13 +162,12 @@ def make_3d_fig(data_brain, df, callback_value):
     return fig2
 
 
-# Function that creates the app with the 3d brain Graph
 # input -   data_brain_file = filename of the input nii file,
 #           coordinate_file = filename of the electrode cartesian coordinates,
 #           callback_object1 = the secondary component,
 #           property1 = the property of the secondary component which determines the plot points
-# output - the app containing the 3d graph and the callback object
-def brain_visual3(data_brain_file, coordinate_file, callback_object1, property1):
+# output - default 3d brain, coordinate dataframe
+def brain_visual3(data_brain_file, coordinate_file):
     # First 3 lines adapted from Github:
     # https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-3d-image-partitioning
     img = image.load_img(data_brain_file)
@@ -176,12 +179,13 @@ def brain_visual3(data_brain_file, coordinate_file, callback_object1, property1)
 
     # Get the file of the cartesian coordinates
     df = pd.read_csv(coordinate_file, delim_whitespace=True, names=['Name', 'x', 'y', 'z'])
-    brain_fig = dcc.Graph(
-            id="image-display-graph-3d",
-            config=dict(displayModeBar=False),
-            # figure=fig
-        )
     """
+    brain_fig = dcc.Graph(
+        id="image-display-graph-3d",
+        config=dict(displayModeBar=False),
+        # figure=fig
+    )
+
     # Set up the app with the 3d brain and the secondary component
     app = dash.Dash(__name__)
     app.layout = html.Div([
@@ -205,5 +209,5 @@ def brain_visual3(data_brain_file, coordinate_file, callback_object1, property1)
 
     return app
     """
-    
-    return data_brain, df, brain_fig
+
+    return data_brain, df
