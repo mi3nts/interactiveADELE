@@ -11,7 +11,8 @@
 #   - a slider with the epochs
 
 # import libraries
-import dash_core_components as dcc
+# import dash_core_components as dcc
+from dash import dcc
 
 
 # slider function
