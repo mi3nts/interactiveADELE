@@ -79,13 +79,18 @@ def json_to_dataframe(participant_filename, data_filename):
   timestamp = int(round(p_ts.timestamp()))
   # stores index values
   index_vals = df_pd.index.values
-  # calculates the difference in seconds between values (1e6 = microseconds)
-  step = (index_vals[1] - index_vals[0])/1e6
+  # calculates the difference in seconds between values
+  step = 1/100
 
   # Converts int values to datetime values
   for i in range(0, index_vals.size, 1):
     l_final_ts.append(dt.fromtimestamp(timestamp + (i*step)))
 
-  #final dataframe
+   # Final dataframe
   df_final = pd.DataFrame(df_pd.values, columns= df_pd.columns,  index=l_final_ts)
+  # Create mean column and append to final dataframe
+  l_mean = [0] * len(df_final.index)
+  for i, p_dia in enumerate(df_final.values):
+    l_mean[i] = (p_dia[0] + p_dia[1]) / 2
+  df_final['pd_avg'] = l_mean
   return df_final
