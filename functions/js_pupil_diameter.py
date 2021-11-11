@@ -1,20 +1,21 @@
-# CODE TO PARSE JSON FILE FOR PUPIL DIAMETER DATA
+# CODE TO PARSE JSON FILES FOR PUPIL DIAMETER DATA AND START TIME
 
 # CODE AUTHORED BY: OMAR LUNA
 # PROJECT: interactiveADELE
 # GitHub: https://github.com/mi3nts/interactiveADELE
 
 # INPUTS
-#   -participant json filename
-#   -data json filename
+#   -participant_filename: participant json file from tobii device
+#   -data_filename: live data json filefrom tobii device
 # OUTPUTS
-#   - pandas DataFrame containing the data for the left and right pupil diameter
+#   - df_final: pandas DataFrame containing columns for the left and right pupil diameter
+#               as well as the avg diameter of the left and right pupil diameter
 
 # ADELE DEPENDENCIES
 #   - none
 
 # ADELE DEPENDERS
-#   - none
+#   - pd_epoch_dict
 # ==============================================================================
 
 # Import libraries
@@ -89,8 +90,8 @@ def json_to_dataframe(participant_filename, data_filename):
    # Final dataframe
   df_final = pd.DataFrame(df_pd.values, columns= df_pd.columns,  index=l_final_ts)
   # Create mean column and append to final dataframe
-  l_mean = [0] * len(df_final.index)
+  l_avg = [0] * len(df_final.index)
   for i, p_dia in enumerate(df_final.values):
-    l_mean[i] = (p_dia[0] + p_dia[1]) / 2
-  df_final['pd_avg'] = l_mean
+    l_avg[i] = (p_dia[0] + p_dia[1]) / 2
+  df_final['pd_avg'] = l_avg
   return df_final
