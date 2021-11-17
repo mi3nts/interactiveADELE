@@ -43,7 +43,7 @@ def decisionTree_epochDetection(num_bins,Xy_array):
     right_child = clf.tree_.children_right
     threshold = clf.tree_.threshold
     # list to store the bin edges
-    bin_edges = [0,146884]
+    bin_edges = [0,len(Xy_array)-1]
 
     # loop through all the nodes
     for i in range(num_nodes):
