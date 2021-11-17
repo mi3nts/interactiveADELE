@@ -18,7 +18,7 @@
 #   - none
 
 # ADELE DEPENDERS
-#   - none
+#   - dashboard
 # ==============================================================================
 
 # import statements
@@ -77,8 +77,8 @@ def create_brain_data(img):
 #           the band being plotted for the title
 # output - the figure with the 3d brain and three electrode plots
 def make_3d_fig(data_brain, df, callback_value, band):
-    # adapted from plotly dash
-    # creates the default brain
+    # adapted from https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-3d-image-partitioning
+    # creates the default brain model
     default_3d_layout = dict(
         scene=dict(
             yaxis=dict(visible=False, showticklabels=False, showgrid=False, ticks=""),
@@ -94,6 +94,7 @@ def make_3d_fig(data_brain, df, callback_value, band):
         width=800,
     )
 
+    # creates the figure with the default brain model
     fig = go.Figure(data=data_brain,
                     layout=go.Layout(
                         title=go.layout.Title(text="%s Band Highest Electrodes" % band)
@@ -103,20 +104,24 @@ def make_3d_fig(data_brain, df, callback_value, band):
     # create the plot points
     fig2 = go.FigureWidget(fig)  # create widget to add components
 
+    # offset to move the default position of the Cartesian plots
+    #   onto the brain
     xoffset = 84.5385 + 35
     yoffset = 84.9812 + 45
     zoffset = 42.0882 + 25
 
     # Red plot point
-    if (len(callback_value) >= 1):
-        myrow = df.loc[df["Name"] == callback_value[0]]
-        if (myrow.empty):
+    if (len(callback_value) >= 1):                          # checks for a list of at least one electrode
+        myrow = df.loc[df["Name"] == callback_value[0]]     # get the dataframe row matching the name
+        if (myrow.empty):                                   # avoids the callback error for an empty list at startup
             myrow = df.loc[df["Name"] == "Fp1"]
 
+        # extract the individual coordinates
         myrowx = myrow.iloc[0]['x']
         myrowy = myrow.iloc[0]['y']
         myrowz = myrow.iloc[0]['z']
 
+        # Flip across y=x and across the y-axis
         fig2.add_scatter3d(x=[myrowy + xoffset],
                            y=[-myrowx + yoffset],
                            z=[myrowz + zoffset],
@@ -126,15 +131,17 @@ def make_3d_fig(data_brain, df, callback_value, band):
                            )
 
     # Orange plot point
-    if (len(callback_value) >= 2):
-        myrow = df.loc[df["Name"] == callback_value[1]]
-        if (myrow.empty):
+    if (len(callback_value) >= 2):                          # checks for a list of at least 2 electrodes
+        myrow = df.loc[df["Name"] == callback_value[1]]     # get the dataframe row matching the name
+        if (myrow.empty):                                   # avoids the callback error for an empty list at startup
             myrow = df.loc[df["Name"] == "Fp1"]
 
+        # extract the individual coordinates
         myrowx = myrow.iloc[0]['x']
         myrowy = myrow.iloc[0]['y']
         myrowz = myrow.iloc[0]['z']
 
+        # Flip across y=x and across the y-axis
         fig2.add_scatter3d(x=[myrowy + xoffset],
                            y=[-myrowx + yoffset],
                            z=[myrowz + zoffset],
@@ -144,15 +151,17 @@ def make_3d_fig(data_brain, df, callback_value, band):
                            )
 
     # Yellow plot point
-    if (len(callback_value) >= 3):
-        myrow = df.loc[df["Name"] == callback_value[2]]
-        if (myrow.empty):
+    if (len(callback_value) >= 3):                             # checks for a list of at least 3 electrodes
+        myrow = df.loc[df["Name"] == callback_value[2]]        # get the dataframe row matching the name
+        if (myrow.empty):                                      # avoids the callback error for an empty list at startup
             myrow = df.loc[df["Name"] == "Fp1"]
 
+        # extract the individual coordinates
         myrowx = myrow.iloc[0]['x']
         myrowy = myrow.iloc[0]['y']
         myrowz = myrow.iloc[0]['z']
 
+        # Flip across y=x and across the y-axis
         fig2.add_scatter3d(x=[myrowy + xoffset],
                            y=[-myrowx + yoffset],
                            z=[myrowz + zoffset],
@@ -167,7 +176,7 @@ def make_3d_fig(data_brain, df, callback_value, band):
 #           coordinate_file = filename of the electrode cartesian coordinates,
 #           callback_object1 = the secondary component,
 #           property1 = the property of the secondary component which determines the plot points
-# output - default 3d brain, coordinate dataframe
+# output -  default 3d brain, coordinate dataframe
 def brain_visual3(data_brain_file, coordinate_file):
     # First 3 lines adapted from Github:
     # https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-3d-image-partitioning
@@ -186,7 +195,6 @@ def brain_visual3(data_brain_file, coordinate_file):
         config=dict(displayModeBar=False),
         # figure=fig
     )
-
     # Set up the app with the 3d brain and the secondary component
     app = dash.Dash(__name__)
     app.layout = html.Div([
@@ -197,8 +205,8 @@ def brain_visual3(data_brain_file, coordinate_file):
         ),
         callback_object1
     ])
-    
-    
+
+
     # Updates graph when callback_object1 is changed
     @app.callback(
         dash.dependencies.Output('image-display-graph-3d', 'figure'),
@@ -207,7 +215,6 @@ def brain_visual3(data_brain_file, coordinate_file):
     def update_graph(selected_value):
         fig = make_3d_fig(data_brain, df, selected_value)
         return fig
-
     return app
     """
 
