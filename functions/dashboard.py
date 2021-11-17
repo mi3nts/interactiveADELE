@@ -14,6 +14,7 @@
 #   - Create_Slider_fn
 #   - data_processing
 #   - graph_biometric
+#   - highest_electrodes
 
 # ADELE DEPENDERS
 #   - none
@@ -31,28 +32,8 @@ import pandas as pd
 import plotly.graph_objs as go
 
 
-# function that returns a figure with the biometric graph
-# INPUTS - the dataframe and biometric to be graphed - string, i.e HR or SpO2, and epochbm dict
-# OUTPUTS - the graph
-def graph_biometric(df, biometric, epochbm_dict):
-    df_hr = df[biometric]
-    df_hr_epoch_1 = df_hr[epochbm_dict['1'][0][0]:epochbm_dict['1'][0][1]]
-    hr_epoch = df_hr_epoch_1.to_numpy()
-
-    fig = go.Figure(data=[go.Scatter(x=list(range(len(hr_epoch))), y=hr_epoch)])
-    fig.update_layout(
-        title="%s for Epoch 1" % biometric,
-        title_x=0.5,
-        xaxis_title="Time",
-        yaxis_title=biometric,
-
-    )
-    graph = dcc.Graph(figure=fig)
-    return graph
-
-
 # function that returns a figure with the biometric graph for a selected epoch
-# INPUTS - the dataframe and biometric to be graphed - string, i.e HR or SpO2, and epochbm dict
+# INPUTS - the dataframe and biometric to be graphed - string, i.e HR or SpO2, epochbm dictionary,
 #           and epoch as an int
 # OUTPUTS - the figure
 def graph_biometric_selection(biometric, epochbm_dict, epoch):
@@ -65,6 +46,7 @@ def graph_biometric_selection(biometric, epochbm_dict, epoch):
     x_values = list(range(x_values[0], x_values[1]))
     x_values = [number / 500 for number in x_values]
 
+    # Get the y values from the dictionary
     y_df = epochbm_dict[epoch][2][biometric]
     y_values = y_df.values.tolist()
 
@@ -76,6 +58,7 @@ def graph_biometric_selection(biometric, epochbm_dict, epoch):
         yaxis_title=biometric
     )
     return fig
+
 
 def interactive_dashboard():
     # df1 = pd.read_csv('./assets/data/sampleDataBM.csv')  # dummy data for now
@@ -105,20 +88,23 @@ def interactive_dashboard():
     # main application
     app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
     app.layout = html.Div(children=[
+        # Top row title
         html.Div([
             html.H1(
-                children=f"Trial: {'_'.join(map(str,vhdr_fname.split('/')[3].split('_')[:4]))}, epochs based on {var_name}",
+                children=f"Trial: {'_'.join(map(str, vhdr_fname.split('/')[3].split('_')[:4]))}, epochs based on {var_name}",
                 style={
                     'textAlign': 'center'})
         ]),
+        # Second row slider
         html.Div([
             slider,
-            ], style={
-                'font-size': '12px',
-                'font-color': 'blue',
-                'padding': '10px'
+        ], style={
+            'font-size': '12px',
+            'font-color': 'blue',
+            'padding': '10px',
         }),
-        html.Div([  # upper row with brain and hr plot
+        # Third row with brain and HR plot
+        html.Div([
             html.Div([
                 html.Div([
                     dcc.Graph(
@@ -132,13 +118,13 @@ def interactive_dashboard():
             ], className='six columns'),
             html.Div([
                 dcc.Graph(id='hr-graph1',
-                    style={
-                        'display': 'inline-block'
-                    })
+                          style={
+                              'display': 'inline-block'
+                          })
             ], className='six columns'),
         ], className='row'),
-
-        html.Div([  # bottom row
+        # Fourth row with brain and Sp02 plot
+        html.Div([
             html.Div([
                 html.Div([
                     dcc.Graph(
@@ -152,13 +138,16 @@ def interactive_dashboard():
             ], className='six columns'),
             html.Div([
                 dcc.Graph(id='SpO2-graph1',
-                    style={
-                        'display': 'inline-block'
-                    })
+                          style={
+                              'display': 'inline-block'
+                          })
             ], className='six columns')
-        ], className='row'),
+        ], className='row',
+        ),
 
-    ],style={'backgroundColor':'gray'})
+    ], style={'backgroundColor': 'gray',
+              "border": "4px black solid"},
+    )
 
     # Updates 3d brain 1 (Theta band) with the electrode to plot when slider is changed
     @app.callback(
