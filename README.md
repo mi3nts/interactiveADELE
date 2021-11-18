@@ -14,8 +14,10 @@ Once all the data had been collected, the getEpochbm_dict function was adjusted 
 ### Slider
 The slider is a tool being used to easily traverse between the different epochs being explored. The slider shows 5 different epochs that work with the graphs presented to relay different information regarding the HR and SpO2 levels while showing the correlating high activity electrodes on the brain. 
 
-### The graphs display the heart rate and oxygen saturation over an epoch period. The time range and data being shown depends on the epoch chosen.
+### Graphs
+The graphs display the heart rate and oxygen saturation over an epoch period. The time range and data being shown depends on the epoch chosen.
 
-### The brain visualization connects to the biometric data and the different epochs present in the slider to provide a visual on which areas of the brain show the most activity at the selected epoch. There are currently Theta and Alpha frequency band visuals for the brain which show the three highest activity electrodes for each.
+### Brain Visualization
+The brain visualization connects to the biometric data and the different epochs present in the slider to provide a visual on which areas of the brain show the most activity at the selected epoch. There are currently Theta and Alpha frequency band visuals for the brain which show the three highest activity electrodes for each.
 
 ![demo](docs/demo.gif)
