@@ -9,4 +9,13 @@ The EEG data consisted of 64 electrodes where each electrode had a specific volt
 ### Merging the data
 Once all the data had been collected, the getEpochbm_dict function was adjusted to merge the EEG biometrics, non-EEG biometrics and pupil data into a single dictionary. This was done by importing the necessary functions and calling them to retrieve the dictionaries for the non-EEG biometrics and the pupil data inside getEpochbm_dict. As the list of time indices and dataframes are added to the dictionary in each given epoch the non-EEG biometrics and pupil data are also appended to the list in order to merge all the data. 
 
+## Design and Development
+
+### Slider
+The slider is a tool being used to easily traverse between the different epochs being explored. The slider shows 5 different epochs that work with the graphs presented to relay different information regarding the HR and SpO2 levels while showing the correlating high activity electrodes on the brain. 
+
+### The graphs display the heart rate and oxygen saturation over an epoch period. The time range and data being shown depends on the epoch chosen.
+
+### The brain visualization connects to the biometric data and the different epochs present in the slider to provide a visual on which areas of the brain show the most activity at the selected epoch. There are currently Theta and Alpha frequency band visuals for the brain which show the three highest activity electrodes for each.
+
 ![demo](docs/demo.gif)
