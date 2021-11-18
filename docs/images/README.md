@@ -1,1 +1,2 @@
-# Folder contains images used in the documentation
+# interactiveADELE
+Folder contains images used in the documentation
