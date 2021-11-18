@@ -1,4 +1,4 @@
-# getEpochbm_dict(eeg_data, epoch_dict, part_fname, ldata_fname, vhdr_fname)
+# getEpochbm_dict.py
 
 This Function is used to create a dictionary where the keys are the epoch integers from the epoch dictionary and the values are a list of time index ranges, EEG biometrics, non-EEG biometrics, and pupil data. 
 
