@@ -28,7 +28,16 @@ from getEpochbm_dict import *
 from js_pupil_diameter import *
 import numpy as np
 
-def pd_epoch_dict(tobii_data, epoch_dict, eeg_ts):
+def pd_epoch_dict(tobii_data, epoch_dict, eeg_filename):
+     # Retrieve the eeg data timestamp from the file
+    with open(eeg_filename) as f:
+      lines = f.readlines()
+    for i, line in enumerate(lines):
+      ss_index = line.find('Recording Start Time')
+      if ss_index > -1:
+        # Store timestamp
+        eeg_ts = lines[i+1]    
+    eeg_ts = eeg_ts.replace('\n', '')
     dt_timestamp = dt.strptime(eeg_ts, "%Y-%m-%d %H:%M:%S.%f" )
     y = int(round(dt_timestamp.timestamp()))
     # list containing converted epoch timestamps
