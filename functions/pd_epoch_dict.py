@@ -7,7 +7,7 @@
 # INPUTS
 #   -tobii_data: pandas Dataframe with timestamp values as the index and pupil diameter data as the columns
 #   -epoch_dict: dictionary with predetermined epochs
-#   -eeg_ts: timestamp from tobii device
+#   -eeg_filename: file containing the timestamp from tobii device
 # OUTPUTS
 #   -epochbm_dict: dictionary where keys are integers corresponding to epochs and values are a list containing the epoch boundaries
 #                   and the pupil diameter data within the boundaries of each epoch.
