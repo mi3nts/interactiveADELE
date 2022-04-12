@@ -18,7 +18,7 @@
 # ADELE DEPENDERS
 #   - none
 # ==============================================================================
-def highest_electrodes(epochbm_dict, epoch, band, num_bins):
+def highest_electrodes(epochbm_dict, epoch, band):
     # Get the correct dataframe for a certain epoch
     epoch = str(epoch)
     df = epochbm_dict[epoch][1][band]
@@ -31,12 +31,4 @@ def highest_electrodes(epochbm_dict, epoch, band, num_bins):
     first3 = mylist[0:3:]
     electrode_list = first3.index.values
 
-    full_event = []
-    if band == 'Alpha':
-        for i in range(1,num_bins+1):
-            dummy_df = list(epochbm_dict[str(i)][1]['Alpha'].sort_values(ascending=False).iloc[0:3:].index.values)
-            full_event.append(dummy_df)
-            # print(dummy_df)
-        # print(full_event)
-
-    return electrode_list, full_event
+    return electrode_list

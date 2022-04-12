@@ -45,7 +45,4 @@ def read_eeg(vhdr_fname):
     # create pandas dataframe with eeg data
     eeg_data = pd.DataFrame(raw.get_data().transpose(), columns=raw.ch_names)
 
-    # Temporarily drop T7 while it's broken
-    eeg_data = eeg_data.drop(columns=["T7"])
-
     return eeg_data
