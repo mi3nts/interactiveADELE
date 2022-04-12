@@ -27,6 +27,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 functions/assets/data
+functions/assets
+functions/main
+functions/static
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

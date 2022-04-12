@@ -9,21 +9,16 @@
 #   as timesteps
 #   - epoch_dict = dictionary where keys are integers corresponding to each
 #   epoch, and values are epoch time index ranges
-#   - part_fname = string. path to relevant participant.json file
-#   - ldata_fname = string. path to relevant livedata.json file
-#   - vhdr_fname = string. path to relevant .vhdr file
 
 # OUTPUTS
 #   - epochbm_dict = dictionary with keys as integers corresponding to each epoch,
 #   and values are a list containing epoch time index ranges, a pandas dataframe
 #   where the rows are electrodes and columns are brainwaves bands for the given epoch,
-#   another pandas dataframe containing non-eeg data where rows are time index and
-#   columns are the non-eeg biometric names, and a list containing timestamps and pupil data.
+#   and another pandas dataframe containing non-eeg data where rows are time index and 
+#   columns are the non-eeg biometric names.
 
 # ADELE DEPENDENCIES
 #   - biometricVar_per_epoch()
-#   - pd_epoch_dict()
-#   - js_pupil_diameter()
 
 # ADELE DEPENDERS
 #   - data_processing()
@@ -37,11 +32,9 @@ import pandas as pd
 # import functions
 from scipy import signal
 from biometricVar_per_epoch import *
-from js_pupil_diameter import *
-from pd_epoch_dict import *
 
 # define function
-def getEpochbm_dict(eeg_data, epoch_dict, part_fname, ldata_fname, vhdr_fname):
+def getEpochbm_dict(eeg_data, epoch_dict):
 
     df = eeg_data.iloc[:, 0:64]     # create dataframe for 64 signals
     fs = 500                        # Sampling rate of 500 Hz
@@ -49,9 +42,6 @@ def getEpochbm_dict(eeg_data, epoch_dict, part_fname, ldata_fname, vhdr_fname):
     
     # Read dictionary with non-eeg data
     non_eeg_dict = biometricVar_per_epoch(epoch_dict, eeg_data)
-    
-    # Create dataframe from tobii data
-    tobii_data = json_to_dataframe(part_fname, ldata_fname)
     
     # Define EEG frequency bands
     bands = {'Delta': (1, 3),
@@ -102,17 +92,5 @@ def getEpochbm_dict(eeg_data, epoch_dict, part_fname, ldata_fname, vhdr_fname):
 
         # add time index ranges and both EEG and non-EEG biometric dataframes to final dictionary in each epoch
         epochbm_dict[e] = [[start_idx, end_idx], bands_df, non_eeg_dict[e][1]]
-    
-    # Get pupil data dictionary
-    pd_dict = pd_epoch_dict(tobii_data, epoch_dict, vhdr_fname)
 
-    # Store dictionary values in a list
-    pd_values = list(pd_dict.values())
-
-    # Append pupil data to end of list in each corresponding epoch
-    i = 0
-    for k in epochbm_dict:
-        epochbm_dict[k].append(pd_values[i])
-        i += 1
-    
     return epochbm_dict
