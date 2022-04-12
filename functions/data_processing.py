@@ -43,7 +43,7 @@ def data_processing(vhdr_fname, var_name, num_bins):
     # get dictionary with epoch information and eeg bands
     epochbm_dict = getEpochbm_dict(eeg_data, epoch_dict)
 
-    return epochbm_dict
+    return epochbm_dict, epoch_dict
 
 """
 # EXAMPLE

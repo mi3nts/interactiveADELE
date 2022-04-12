@@ -1,4 +1,4 @@
-# CODE TO DERRIVE ROLLING AVERAGED (NON)BIOMETRIC VARIABLE(S) VALUE PER TIMESTEP PER EPOCH
+# CODE TO DERRIVE ROLLING AVERAGED BIOMETRIC VARIABLE(S) VALUE PER TIMESTEP PER EPOCH
 
 # CODE AUTHORED BY: CHISOM SOPURUCHI	
 # PROJECT: interactiveADELE
@@ -26,7 +26,7 @@ def biometricVar_per_epoch(epoch_dict, eeg_data):
     
     # define output dictionary
     epochbm_dict={}
-    # format the SpO2 column
+    # SpO2 vals
     eeg_data.SpO2 = eeg_data.SpO2*pow(10,6)
     # list to store column names we want to access from the dataframe
     df_cols = ['HR', 'Temp.', 'SpO2']

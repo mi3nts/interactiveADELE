@@ -7,7 +7,7 @@
 # INPUTS
 #   -tobii_data: pandas Dataframe with timestamp values as the index and pupil diameter data as the columns
 #   -epoch_dict: dictionary with predetermined epochs
-#   -eeg_filename: file containing the timestamp from tobii device
+#   -eeg_ts: timestamp from tobii device
 # OUTPUTS
 #   -epochbm_dict: dictionary where keys are integers corresponding to epochs and values are a list containing the epoch boundaries
 #                   and the pupil diameter data within the boundaries of each epoch.
@@ -28,16 +28,7 @@ from getEpochbm_dict import *
 from js_pupil_diameter import *
 import numpy as np
 
-def pd_epoch_dict(tobii_data, epoch_dict, eeg_filename):
-     # Retrieve the eeg data timestamp from the file
-    with open(eeg_filename) as f:
-      lines = f.readlines()
-    for i, line in enumerate(lines):
-      ss_index = line.find('Recording Start Time')
-      if ss_index > -1:
-        # Store timestamp
-        eeg_ts = lines[i+1]    
-    eeg_ts = eeg_ts.replace('\n', '')
+def pd_epoch_dict(tobii_data, epoch_dict, eeg_ts):
     dt_timestamp = dt.strptime(eeg_ts, "%Y-%m-%d %H:%M:%S.%f" )
     y = int(round(dt_timestamp.timestamp()))
     # list containing converted epoch timestamps

@@ -28,7 +28,7 @@ def create_slider(epoch_dict):
         step=None,
         min=1,
         max=len(slider_dict),  # the maximum is the total length of our slider dictionary (4)
-        value=len(slider_dict),  # the length is the total length of our slider dictionary (4)
+        value=3,  # the length is the total length of our slider dictionary (4)
         
 
     )

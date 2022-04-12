@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+functions/main
+functions/assets/Blink_Detection
 
 # C extensions
 *.so
@@ -27,6 +29,8 @@ share/python-wheels/
 *.egg
 MANIFEST
 functions/assets/data
+functions/static
+functions/assets/vosk-model-en-us-0.22
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -77,6 +81,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+.ipynb
 
 # IPython
 profile_default/
